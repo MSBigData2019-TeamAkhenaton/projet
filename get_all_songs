@@ -1,0 +1,38 @@
+from bs4 import BeautifulSoup
+import requests
+import pandas as pd
+
+
+def get_all_songs ():
+
+    list_songs = []
+    #published = []
+
+    for year in range(2010,2019):
+
+        page_link = 'https://en.wikipedia.org/wiki/Category:'+str(year)+'_songs'
+        stop_point = False
+
+        while stop_point == False :
+            page_response = requests.get(page_link, timeout=5)
+            page_content = BeautifulSoup(page_response.content, "html.parser")
+
+            list_page_song = page_content.find("div", class_="mw-category").find_all('li')
+            for i  in list_page_song :
+                try :
+                    list_songs.append(i.find('a')['title'])
+                    #song_link='https://en.wikipedia.org'+i.find('a')['href']
+                    #song_response = requests.get(song_link, timeout=5)
+                    #song_content = BeautifulSoup(song_response.content, "html.parser")
+                    #published.append(page_content.find("td", class_="published").text)
+                except :
+                    pass
+            pre_next = page_content.find("div", id="mw-pages").find_all('a')[-1].text
+            if pre_next=='next page' :
+                page_link = 'https://en.wikipedia.org' + page_content.find("div", id="mw-pages").find_all('a')[-1]['href']
+                #print(page_link)
+            else :
+                stop_point = True
+    return list_songs
+
+list_songs = get_all_songs()
