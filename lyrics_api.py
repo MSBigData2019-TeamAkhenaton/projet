@@ -18,7 +18,6 @@ def lyrics(song, artist):
 		song_info['artist'] = track['artist_name']
 		song_info['genre'] = track['primary_genres']['music_genre_list'][0]['music_genre']['music_genre_name']
 
-		song_info['has_lyrics'] == 1:
 		get_lyrics = "https://api.musixmatch.com/ws/1.1/track.lyrics.get?apikey=26cc996c835cca5e9941d0c6a77ad8d1&track_id={}".format(song_info['id'])
 		res = requests.get(get_lyrics)
 		res_data = res.json()
