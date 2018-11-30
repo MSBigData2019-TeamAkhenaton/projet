@@ -30,3 +30,11 @@ class SentimentAnalyzer():
         emotion.update(sentiment)
 
         return emotion
+    def sentiment_score_raw (self, lyrics : str):
+        """Take lyrics text file in entry andgive a dict of sentiment/emotion analysis score"""
+
+        response = self.naturalLanguageUnderstanding.analyze(
+            text=lyrics,
+            features=self.def_features).get_result()
+        
+        return response
