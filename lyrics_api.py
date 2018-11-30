@@ -26,7 +26,10 @@ def lyrics(song, artist):
 		song_info['album'] = track['album_name']
 		song_info['song_name'] = track['track_name']
 		song_info['artist'] = track['artist_name']
-		song_info['genre'] = track['primary_genres']['music_genre_list'][0]['music_genre']['music_genre_name']
+		try:
+			song_info['genre'] = track['primary_genres']['music_genre_list'][0]['music_genre']['music_genre_name']
+		except:
+			song_info['genre'] = None
 
 		get_lyrics = "https://api.musixmatch.com/ws/1.1/track.lyrics.get?apikey={}&track_id={}".format(key, song_info['id'])
 		res = requests.get(get_lyrics)
@@ -39,14 +42,14 @@ def lyrics(song, artist):
 		song_info['lyrics'] = lyric['lyrics_body'].replace("\n...\n\n******* This Lyrics is NOT for Commercial use *******", "")
 
 	except:
-		song_info['id'] = ""
-		song_info['has_lyrics'] = ""
-		song_info['album'] = ""
-		song_info['song_name'] = ""
-		song_info['artist'] = ""
-		song_info['genre'] = ""
-		song_info['language'] = ""
-		song_info['instrumental'] = ""
-		song_info['lyrics'] = ""
+		song_info['id'] = None
+		song_info['has_lyrics'] = None
+		song_info['album'] = None
+		song_info['song_name'] = None
+		song_info['artist'] = None
+		song_info['genre'] = None
+		song_info['language'] = None
+		song_info['instrumental'] = None
+		song_info['lyrics'] = None
 
 	return song_info
